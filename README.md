@@ -1,66 +1,112 @@
+---
+title: Claude Code Starter Kit
+created: 2026-06-28
+updated: 2026-06-28
+type: project
+tags: [programming, framework]
+sources:
+  - https://github.com/haiixi/claude-code-starter
+confidence: high
+---
+
 # Claude Code Starter Kit
 
-一键初始化 Claude Code 最佳实践配置。合并了两套方案的优势：
+结合了两套方案优势的 Claude Code 初始化工具包：
 
-- 生产级 `CLAUDE.md` 模板（含验证清单、上下文层级、安全边界）
-- 命令式 Skill `/claude-starter`（支持 `global / project / docs` 三种模式）
-- 推荐的外部 Skills 和官方 Plugins
-- MCP 配置（GitHub / filesystem / fetch）
-- 5 个中文内置保底 Skills
+- **你本地生成的 `claude-code-starter`**：生产级 CLAUDE.md、项目模板、完整的工作流
+- **我生成的 `claude-code-setup`**：MCP 配置、中文触发词、内置保底 Skills
 
-## 安装
+## 前置依赖
 
-```bash
-# 克隆到本地 skills 目录
-git clone https://github.com/haiixi/claude-code-starter.git
-cp -r claude-code-starter ~/.claude/skills/
-```
+- Claude Code 已安装
+- Node.js + npm（用于 npx MCP servers）
+- Python + `uv`（可选，用于 `uvx mcp-server-fetch`，也可换成 npx 方案）
 
-Windows PowerShell:
+## 包含内容
+
+| 文件/目录 | 说明 |
+|------------|------|
+| `.claude/CLAUDE.md` | 默认全局规则模板 |
+| `.claude/settings.json` | MCP 配置模板 |
+| `.claude/skills/claude-code-starter/` | 主引导 Skill |
+| `.claude/skills/{coding-standards,test-workflow,git-commit,code-review,refactor-clean}` | 内置保底 Skills |
+
+## 安装方法
+
+### Windows
 
 ```powershell
-git clone https://github.com/haiixi/claude-code-starter.git
-Copy-Item -Recurse -Force "claude-code-starter" "$env:USERPROFILE\.claude\skills"
+# 1. 备份现有配置（如果存在）
+if (Test-Path "$env:USERPROFILE\.claude") {
+    Move-Item "$env:USERPROFILE\.claude" "$env:USERPROFILE\.claude.bak.$(Get-Date -Format yyyyMMddHHmmss)"
+}
+
+# 2. 将本目录下的 .claude 复制到用户目录
+Copy-Item -Recurse -Force ".\.claude" "$env:USERPROFILE\.claude"
+```
+
+### macOS / Linux
+
+```bash
+# 1. 备份现有配置（如果存在）
+[ -d ~/.claude ] && mv ~/.claude ~/.claude.bak.$(date +%Y%m%d%H%M%S)
+
+# 2. 复制
+mkdir -p ~/.claude
+cp -r .claude/* ~/.claude/
+```
+
+### 项目级
+
+```bash
+# 为当前项目复制
+cp -r .claude <your-project>/.claude
 ```
 
 ## 使用
 
-启动 Claude Code，运行：
+安装完成后，在 Claude Code 中运行：
 
 ```text
 /claude-starter              # 交互式向导
-/claude-starter global       # 安装用户级 CLAUDE.md + 使用说明
-/claude-starter project      # 为当前项目生成 CLAUDE.md + 使用说明
-/claude-starter docs         # 仅刷新使用说明
-```
-
-## 目录结构
-
-```
-.
-├── SKILL.md                      # 主 Skill
-├── USAGE.md                      # 使用说明模板
-├── recommended-skills.md         # 推荐 Skills 及安装来源
-├── recommended-plugins.md        # 推荐 Plugins 及安装命令
-├── recommended-mcp.json          # MCP 配置建议
-├── templates/
-│   ├── global-claude.md          # 全局 CLAUDE.md 模板
-│   └── project-claude.md         # 项目级 CLAUDE.md 模板
-└── fallback-skills/              # 中文保底 Skills
-    ├── coding-standards/
-    ├── test-workflow/
-    ├── git-commit/
-    ├── code-review/
-    └── refactor-clean/
+/claude-starter global       # 全局配置
+/claude-starter project      # 当前项目配置
+/claude-starter docs         # 刷新使用说明
 ```
 
 ## 配置完成后
 
-1. 安装推荐的 Plugins（在 Claude Code 会话内执行）
-2. 根据 `recommended-skills.md` 安装外部 Skills
-3. 填充 MCP 配置中的 GitHub token 和文件系统路径
-4. 如果外部 skill 缺失，可以使用 `fallback-skills/` 中的保底版本
+1. 修改 `.claude/CLAUDE.md` 中需要个性化的部分
+2. 在 `.claude/settings.json` 中填入 GitHub token 和允许访问的路径
+3. 按照 `USAGE.md` 安装推荐的 Skills 和 Plugins
+
+## 卸载/回滚
+
+```bash
+# 移除安装
+rm -rf ~/.claude/skills/claude-code-starter
+rm -rf ~/.claude/skills/{coding-standards,test-workflow,git-commit,code-review,refactor-clean}
+rm -f ~/.claude/CLAUDE.md
+rm -f ~/.claude/settings.json
+rm -rf ~/.claude/claude-starter
+
+# 如果之前备份过，可以恢复
+mv ~/.claude.bak.<timestamp> ~/.claude
+```
+
+## 与原始方案的对比
+
+| 特性 | 合并版 | 方案 A（你本地版） | 方案 B（知识库旧版） |
+|------|--------|---------------------|---------------------|
+| 命令式 Skill | ✅ | ✅（修复了 `trigger` 写法） | ❌ |
+| 高质量 CLAUDE.md | ✅ | ✅ | ❌ |
+| 项目模板 | ✅ | ✅ | ❌ |
+| MCP 配置 | ✅ | ❌ | ✅ |
+| 内置保底 Skills | ✅ | ❌ | ✅ |
+| 推荐 Plugins | ✅ | ✅ | ❌ |
+| 中文 | ✅ | ❌ | ✅ |
 
 ## 更新历史
 
-- 2026-06-28: 整合优化，修复 `trigger` 为 `triggers`，汉化，加入 MCP 和保底 Skills
+- 2026-06-28: 整合优化，创建合并版
+- 2026-06-28: 重写 SKILL.md 为可执行 prompt，修正推荐来源，改进模板
