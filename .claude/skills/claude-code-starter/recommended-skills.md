@@ -21,14 +21,12 @@ cp -r /tmp/agent-skills/skills/* ~/.claude/skills/
 | `context-engineering` | 在合适时机加载合适上下文 | https://github.com/addyosmani/agent-skills/tree/main/skills/context-engineering |
 | `spec-driven-development` | 先写规格再编码 | https://github.com/addyosmani/agent-skills/tree/main/skills/spec-driven-development |
 | `incremental-implementation` | 分小步骤交付 | https://github.com/addyosmani/agent-skills/tree/main/skills/incremental-implementation |
-| `test-driven-development` | 先写失败测试，再让它通过 | https://github.com/addyosmani/agent-skills/tree/main/skills/test-driven-development |
 
 ## 代码质量
 
 | Skill | 作用 | 安装来源 |
 |-------|------|----------|
 | `code-review-and-quality` | 合并前多维度审查 | https://github.com/addyosmani/agent-skills/tree/main/skills/code-review-and-quality |
-| `security-and-hardening` | OWASP 防御与输入验证 | https://github.com/addyosmani/agent-skills/tree/main/skills/security-and-hardening |
 | `code-simplification` | 简化代码同时保持行为不变 | https://github.com/addyosmani/agent-skills/tree/main/skills/code-simplification |
 | `frontend-ui-engineering` | 生产级 UI 构建 | https://github.com/addyosmani/agent-skills/tree/main/skills/frontend-ui-engineering |
 
@@ -43,20 +41,28 @@ cp -r /tmp/agent-skills/skills/* ~/.claude/skills/
 
 | Skill | 作用 | 安装来源 |
 |-------|------|----------|
-| `planning-and-task-breakdown` | 把工作拆成有序任务 | https://github.com/addyosmani/agent-skills/tree/main/skills/planning-and-task-breakdown |
 | `debugging-and-error-recovery` | 系统性根因调试 | https://github.com/addyosmani/agent-skills/tree/main/skills/debugging-and-error-recovery |
 
 ## 内置保底 Skills
 
-如果外部 skill 暂时无法下载，以下技能随本配置包提供。它们的功能较简单，仅作为临时替代。
+以下技能随本配置包提供。它们是对外部生产级 skill 的简化版本，覆盖日常高频场景。
 
 | Skill | 触发词 | 定位 |
 |-------|--------|------|
-| `coding-standards` | `/coding-standards` | 简易代码规范检查 |
+| `coding-standards` | `/coding-standards` | 代码规范检查 |
 | `test-workflow` | `/test-workflow` | 简易 TDD 流程 |
-| `git-commit` | `/git-commit` | 简易提交信息生成 |
-| `code-review` | `/code-review` | 简易代码审查 |
-| `refactor-clean` | `/refactor-clean` | 简易清理死代码 |
+| `git-commit` | `/git-commit` | 提交信息生成 |
+| `code-review` | `/code-review` | 五轴代码审查 |
+| `refactor-clean` | `/refactor-clean` | 清理死代码 |
+| `systematic-debugging` | `/systematic-debugging` | 根因分析 |
+| `verification-before-completion` | `/verification-before-completion` | 完成前验证 |
+| `planning-and-task-breakdown` | `/plan` | 任务拆解 |
+| `test-driven-development` | `/tdd` | 严格 TDD |
+| `writing-skills` | `/writing-skills` | 编写 skill 指南 |
+| `security-and-hardening` | `/security` | 安全审查与加固 |
+| `shipping-and-launch` | `/ship` | 上线发布流程 |
+| `ecc-council` | `/council` | 多视角决策 |
+| `ecc-agent-orchestration` | `/delegate` | Agent 编排 |
 
 ## 更新本 skill 的推荐 skills
 

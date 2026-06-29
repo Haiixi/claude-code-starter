@@ -4,6 +4,15 @@
 
 **重要：以下命令必须在 Claude Code 会话内运行，不能放到 shell 脚本中执行。**
 
+## 安装前检查
+
+如果某个 plugin 安装失败，尝试：
+
+```text
+/plugin discover <name>
+/plugin marketplace list
+```
+
 ## Git 与协作
 
 | Plugin | 安装命令 | 用途 |

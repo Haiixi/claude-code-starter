@@ -34,9 +34,13 @@
 | refactor-clean | `/refactor-clean` | 清理死代码 | 简易 |
 | systematic-debugging | `/systematic-debugging` | bug 根因分析 | 专业 |
 | verification-before-completion | `/verification-before-completion` | 完成前验证 | 专业 |
-| planning-and-task-breakdown | `/plan` | 拆解复杂任务 | 专业 |
+| planning-and-task-breakdown | `/plan` | 拆解复杂任务为可执行计划 | 专业 |
 | test-driven-development | `/tdd` | 严格 TDD 开发 | 专业 |
 | writing-skills | `/writing-skills` | 编写新 skill | 参考 |
+| security-and-hardening | `/security` | 安全审查和加固 | 专业 |
+| shipping-and-launch | `/ship` | 上线部署流程 | 专业 |
+| ecc-council | `/council` | 多视角决策会议 | 专业 |
+| ecc-agent-orchestration | `/delegate` | 多 agent 委托 | 专业 |
 
 ### 内置 skill 使用示例
 
@@ -75,6 +79,22 @@
 
 # 学习如何写 skill
 /writing-skills
+
+# 安全审查
+/security
+审查本次提交中的认证和输入验证代码
+
+# 上线检查
+/ship
+给校区课表权限优化功能做上线前检查
+
+# 多视角决策
+/council
+校区课表系统应该用 monorepo 还是 polyrepo
+
+# 多 agent 委托
+/delegate
+让 planner 先拆解这个复杂任务
 ```
 
 ## 推荐 Skills 速查
