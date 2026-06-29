@@ -99,17 +99,22 @@ triggers:
    - 需要用户确认后才修改。
 5. 提醒用户填充 GitHub token 和 filesystem 允许访问路径。
 
-### 步骤 7 — 生成使用文档
+### 步骤 7 — 同步知识库和生成使用文档
 
-1. 使用 `Read` 工具读取 `$SKILL_DIR/USAGE.md`。
-2. 在文档末尾附加：
+1. 使用 `Bash` 工具检查 `docs/claude/` 目录是否存在。
+2. 如果 `MODE=global` 或 `MODE=project` 且当前项目下存在 `docs/claude/`：
+   - 向用户报告知识库路径。
+   - 建议将重要规则提炼为 skill。
+3. 使用 `Read` 工具读取 `$SKILL_DIR/USAGE.md`。
+4. 在文档末尾附加：
    - 生成时间
    - CLAUDE.md 安装状态
    - Skills 验证表
    - Plugin 安装命令
    - MCP 配置状态
-3. 使用 `Write` 工具写入 `$CLAUDE_HOME/claude-starter/USAGE.md`。
-4. 如果 `MODE=project`，同时写入 `./CLAUDE_USAGE.md`。
+   - 知识库路径
+5. 使用 `Write` 工具写入 `$CLAUDE_HOME/claude-starter/USAGE.md`。
+6. 如果 `MODE=project`，同时写入 `./CLAUDE_USAGE.md`。
 
 ### 步骤 8 — 最终报告
 

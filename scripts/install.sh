@@ -38,6 +38,19 @@ if [ -d "$REPO_ROOT/.claude/skills" ]; then
     echo "已安装 skills"
 fi
 
+# 处理知识库
+if [ -d "$REPO_ROOT/docs/claude" ]; then
+    if [ "$MODE" = "global" ]; then
+        mkdir -p "$HOME/.claude/knowledge-base"
+        cp -r "$REPO_ROOT/docs/claude/"* "$HOME/.claude/knowledge-base/"
+        echo "已同步知识库到: $HOME/.claude/knowledge-base"
+    elif [ "$MODE" = "project" ]; then
+        mkdir -p "$PWD/docs/claude"
+        cp -r "$REPO_ROOT/docs/claude/"* "$PWD/docs/claude/"
+        echo "已复制知识库到: $PWD/docs/claude"
+    fi
+fi
+
 # 处理 CLAUDE.md
 if [ "$MODE" = "global" ]; then
     cp "$REPO_ROOT/.claude/skills/claude-code-starter/templates/global-claude.md" "$HOME/.claude/CLAUDE.md"

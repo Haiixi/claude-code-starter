@@ -57,3 +57,11 @@
 - `/coding-standards` — 检查代码规范。
 - `/code-review` — 合并前代码审查。
 - `/git-commit` — 生成规范提交信息。
+- `/systematic-debugging` — 遇到 bug 先系统化根因分析。
+- `/verification-before-completion` — 完成前强制验证。
+
+---
+
+### ===== 公共规则结束，下方是您的自定义规则（不会被同步覆盖）=====
+
+> 在此分隔符下方添加仅对本项目/本机有效的自定义规则。运行 `./scripts/update.sh` 时会保留这部分内容。
