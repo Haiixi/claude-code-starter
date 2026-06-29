@@ -88,13 +88,13 @@ triggers:
 3. 使用 `Write` 将命令列表写入 `$CLAUDE_HOME/claude-starter/install-plugins.md`。
 4. 告诉用户这些命令需要在 **Claude Code 会话内** 运行。
 
-### 步骤 6 — 安装 MCP 配置
+### 步骤 6 — 安装 MCP 与 PreToolUse Hook 配置
 
 1. 使用 `Read` 工具读取 `$SKILL_DIR/recommended-mcp.json`。
 2. 使用 `Read` 工具检查 `$CLAUDE_HOME/settings.json` 是否存在。
 3. 如果 `settings.json` 不存在，使用 `Write` 直接写入 `recommended-mcp.json`。
 4. 如果已存在：
-   - 使用 `Bash` 工具或者自己精确合并 `mcpServers`。
+   - 使用 `Bash` 工具或者自己精确合并 `mcpServers` 和 `hooks`。
    - 同名 server 以用户现有配置为准，不覆盖。
    - 需要用户确认后才修改。
 5. 提醒用户填充 GitHub token 和 filesystem 允许访问路径。

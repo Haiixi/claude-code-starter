@@ -27,7 +27,7 @@ confidence: high
 | 文件/目录 | 说明 |
 |------------|------|
 | `.claude/CLAUDE.md` | 默认全局规则模板 |
-| `.claude/settings.json` | MCP 配置模板 |
+| `.claude/settings.json` | MCP 与 PreToolUse hook 配置模板 |
 | `.claude/skills/claude-code-starter/` | 主引导 Skill |
 | `.claude/skills/{coding-standards,test-workflow,git-commit,code-review,refactor-clean,systematic-debugging,verification-before-completion,test-driven-development,planning-and-task-breakdown,writing-skills,security-and-hardening,shipping-and-launch,ecc-council,ecc-agent-orchestration}` | 内置保底 Skills |
 
@@ -78,7 +78,8 @@ cp -r .claude <your-project>/.claude
 
 1. 修改 `.claude/CLAUDE.md` 中需要个性化的部分
 2. 在 `.claude/settings.json` 中填入 GitHub token 和允许访问的路径
-3. 按照 `USAGE.md` 安装推荐的 Skills 和 Plugins
+3. Starter 内置的 PreToolUse hook 会在执行 Bash 搜索命令前，检查当前项目是否存在 `docs/claude/README.md`；存在时会提醒 Claude 先阅读项目文档
+4. 按照 `USAGE.md` 安装推荐的 Skills 和 Plugins
 
 ## 卸载/回滚
 

@@ -276,6 +276,33 @@ pytest 报错：ForeignKeyViolationError in test_order_create
 }
 ```
 
+## PreToolUse Hook
+
+`.claude/settings.json` 内置了一个通用的项目上下文提示 hook。
+
+### 行为
+
+当 Claude 准备执行以下 Bash 搜索命令时：
+
+```text
+grep, rg, ripgrep, find, fd, ack, ag
+```
+
+hook 会检查当前工作目录下是否存在 `docs/claude/README.md`：
+
+- **存在**：在工具调用前附加提示，提醒 Claude 先阅读项目文档，了解项目约定和架构后再搜索原始文件。
+- **不存在**：静默通过，不产生额外提示。
+
+### 设计目的
+
+- 避免在已有项目知识库的情况下，直接通过 `grep`/`rg` 等工具从零开始扫描代码。
+- 让 Claude 优先使用项目维护者整理好的上下文（`docs/claude/README.md`），减少幻觉和不必要的文件遍历。
+- 与 graphify 等专用 hook 不同，这是一个**通用** hook，不依赖任何特定工具或项目结构。
+
+### 自定义
+
+在 `.claude/settings.json` 的 `hooks.PreToolUse` 中修改 `command` 字段即可调整触发条件或提示文案。删除整个 `hooks` 节点可完全禁用该 hook。
+
 ## 工具组合速查
 
 | 场景 | 推荐组合 |
