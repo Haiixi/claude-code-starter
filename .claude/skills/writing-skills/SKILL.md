@@ -8,24 +8,86 @@ triggers:
 
 # Writing Skills
 
-## Overview
+> Writing skills is Test-Driven Development applied to process documentation. If you didn't watch an agent fail without the skill, you don't know if the skill teaches the right thing.
 
-Writing skills is Test-Driven Development applied to process documentation.
+## Quick Reference
 
-You write test cases (pressure scenarios), watch them fail (baseline behavior), write the skill (documentation), watch tests pass (compliance), and refactor (close loopholes).
+| Item | Answer |
+|------|--------|
+| **Use when** | Creating new skills, editing existing skills, verifying skills |
+| **Core rule** | Skills are reusable techniques/patterns/tools, not one-off war stories |
+| **Structure** | Quick Reference → Process → Output Format → Examples → Standards → Checklist → Red Flags |
 
-**Core principle:** If you didn't watch an agent fail without the skill, you don't know if the skill teaches the right thing.
+## Process
 
-## What is a Skill?
+1. **Identify the reusable technique**: What pattern applies broadly across projects?
+2. **Write pressure scenarios**: Test cases that show current behavior without the skill.
+3. **Draft the skill**: Use the standard structure.
+4. **Test the skill**: Have an agent follow it and watch it succeed.
+5. **Refine**: Close loopholes based on failures.
+6. **Verify before deployment**: Ensure triggers, steps, and examples are clear.
 
-A **skill** is a reference guide for proven techniques, patterns, or tools.
+## Output Format
 
-**Skills are:** Reusable techniques, patterns, tools, reference guides
+```markdown
+---
+name: skill-name
+description: Use when [triggering condition]. [More context].
+triggers:
+  - /skill-name
+  - keyword
+---
 
-**Skills are NOT:** Narratives about how you solved a problem once
+# Skill Title
 
-## When to Create a Skill
+> One-sentence principle.
 
+## Quick Reference
+| Item | Answer |
+| ... |
+
+## Process
+1. ...
+
+## Output Format
+...
+
+## Examples
+### Good
+...
+
+### Bad
+...
+
+## Standards
+...
+
+## Checklist
+- [ ] ...
+
+## Red Flags
+- ...
+```
+
+## Examples
+
+### Good Skill Description
+
+```yaml
+name: retry-policy
+description: Use when designing retry logic for external service calls. Ensures exponential backoff, idempotency, and circuit breaker patterns.
+```
+
+### Bad Skill Description
+
+```yaml
+name: that-time-we-fixed-redis
+description: Explains how we fixed a Redis timeout last Tuesday.
+```
+
+## Standards
+
+### When to Create
 **Create when:**
 - Technique wasn't intuitively obvious
 - You'd reference this again across projects
@@ -38,7 +100,7 @@ A **skill** is a reference guide for proven techniques, patterns, or tools.
 - Project-specific conventions (put in CLAUDE.md)
 - Mechanical constraints (automate those instead)
 
-## Skill Types
+### Skill Types
 
 | Type | Description | Example |
 |------|-------------|---------|
@@ -46,79 +108,40 @@ A **skill** is a reference guide for proven techniques, patterns, or tools.
 | **Pattern** | Way of thinking about problems | flatten-with-flags |
 | **Reference** | API docs, syntax guides | office docs |
 
-## Directory Structure
+### Directory Structure
 
 ```
 skills/
   skill-name/
     SKILL.md              # Main reference (required)
-    supporting-file.*     # Only if needed
+    reference/            # Detailed docs (>100 lines)
+    templates/            # Reusable templates
+    scripts/              # Reusable tools
 ```
-
-**Keep inline:**
-- Principles and concepts
-- Code patterns (< 50 lines)
-
-**Separate files for:**
-- Heavy reference (100+ lines)
-- Reusable tools/scripts
-
-## SKILL.md Structure
 
 ### Frontmatter
 
 ```yaml
 ---
-name: skill-name
-description: Use when [triggering condition]. [More context].
+name: skill-name                    # letters, numbers, hyphens only
+description: Use when ...           # third-person, max 1024 chars
 triggers:
   - /skill-name
   - keyword
 ---
 ```
 
-- `name`: letters, numbers, hyphens only
-- `description`: Third-person, describes ONLY when to use
-- `description` max 1024 characters
-- Start description with "Use when..."
-
 ### Body Structure
 
-```markdown
-# Skill Title
+- **Quick Reference**: When, core rule, output format at a glance.
+- **Process**: Numbered steps, actionable without interpretation.
+- **Output Format**: Template or example of expected output.
+- **Examples**: Good/Bad cases for every rule.
+- **Standards**: Detailed rules and conventions.
+- **Checklist**: Forces completeness.
+- **Red Flags**: Common rationalizations and warning signs.
 
-## Overview
-One paragraph: what this skill does and why.
-
-## When to Use
-- Bullet list of specific situations
-- When NOT to use
-
-## Steps / Process
-1. Step one
-2. Step two
-3. Step three
-
-## Output Format
-Template or example of expected output.
-
-## Examples
-### Good
-...
-
-### Bad
-...
-
-## Checklist
-- [ ] Item one
-- [ ] Item two
-
-## Red Flags
-- Warning sign one
-- Warning sign two
-```
-
-## Writing Tips
+### Writing Tips
 
 1. **Be specific, not abstract**
    - Bad: "Be careful with errors"
@@ -128,24 +151,30 @@ Template or example of expected output.
    - Bad: "This skill explains how to..."
    - Good: "Use this skill when you see..."
 
-3. **Include examples**
-   - Every rule needs a Good/Bad example
+3. **Include examples**: Every rule needs a Good/Bad example.
 
-4. **Use checklists**
-   - They force completeness
+4. **Use checklists**: They force completeness.
 
-5. **Close loopholes**
-   - List common rationalizations and why they're wrong
+5. **Close loopholes**: List common rationalizations and why they're wrong.
 
-6. **Keep it scannable**
-   - Use tables, lists, and clear headings
+6. **Keep it scannable**: Tables, lists, clear headings.
 
-## Verification
-
-Before considering a skill done:
+## Checklist
 
 - [ ] Skill has clear trigger conditions
 - [ ] Steps are actionable without interpretation
 - [ ] Examples show both good and bad cases
 - [ ] Common mistakes are addressed
+- [ ] Red flags and rationalizations are listed
 - [ ] A subagent or another model can follow it successfully
+- [ ] Frontmatter name/describes are valid
+
+## Red Flags
+
+- Skill describes a one-time problem instead of a reusable technique
+- No clear trigger condition
+- Steps are vague or require interpretation
+- Missing examples
+- Missing checklist
+- "Overview" is longer than the actual guidance
+- Skill overlaps with CLAUDE.md instead of complementing it

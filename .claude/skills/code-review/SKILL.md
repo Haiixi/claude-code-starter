@@ -9,82 +9,23 @@ triggers:
 
 # Code Review
 
-## Overview
+> Every change gets reviewed before merge — no exceptions. Approve when it definitely improves overall code health, even if it isn't perfect.
 
-Multi-dimensional code review with quality gates. Every change gets reviewed before merge — no exceptions. Review covers five axes: correctness, readability, architecture, security, and performance.
+## Quick Reference
 
-**The approval standard:** Approve a change when it definitely improves overall code health, even if it isn't perfect.
+| Item | Answer |
+|------|--------|
+| **Use when** | Before merging any PR/change, after feature completion, when evaluating another agent's code |
+| **Axes** | Correctness, Readability, Architecture, Security, Performance |
+| **Output** | Severity-labeled findings + verdict |
 
-## When to Use
+## Process
 
-- Before merging any PR or change
-- After completing a feature implementation
-- When another agent or model produced code you need to evaluate
-- When refactoring existing code
-- After any bug fix (review both the fix and the regression test)
-
-## The Five-Axis Review
-
-### 1. Correctness
-
-- Does it match the spec or task requirements?
-- Are edge cases handled (null, empty, boundary values)?
-- Are error paths handled (not just the happy path)?
-- Does it pass all tests? Are the tests actually testing the right things?
-
-### 2. Readability & Simplicity
-
-- Are names descriptive and consistent with project conventions?
-- Is the control flow straightforward?
-- Is the code organized logically?
-- Could this be done in fewer lines?
-- Are abstractions earning their complexity?
-
-### 3. Architecture
-
-- Does it follow existing patterns or introduce a new one?
-- Does it maintain clean module boundaries?
-- Is there code duplication that should be shared?
-- Are dependencies flowing in the right direction?
-- Is the abstraction level appropriate?
-
-### 4. Security
-
-- Is user input validated and sanitized?
-- Are secrets kept out of code, logs, and version control?
-- Is authentication/authorization checked where needed?
-- Are SQL queries parameterized (no string concatenation)?
-- Are outputs encoded to prevent XSS?
-- Is data from external sources treated as untrusted?
-
-### 5. Performance
-
-- Any N+1 query patterns?
-- Any unbounded loops or unconstrained data fetching?
-- Any synchronous operations that should be async?
-- Any missing pagination on list endpoints?
-- Any large objects created in hot paths?
-
-## Security Scan Focus
-
-- 硬编码密钥 / token / 密码
-- SQL 注入（字符串拼接）
-- 命令注入（`os.system`、`subprocess shell=True`）
-- 不安全反序列化（`pickle.loads`）
-- `eval()` / `exec()` 调用
-- 路径穿越
-
-## Review Findings Severity
-
-Label every comment with its severity:
-
-| Prefix | Meaning | Action |
-|--------|---------|--------|
-| **Critical:** | Blocks merge | Security vulnerability, data loss, broken functionality |
-| **Important:** | Should fix before merge | Logic error, maintainability issue |
-| **Nit:** | Minor, optional | Formatting, style preferences |
-| **Optional:** / **Consider:** | Suggestion | Worth considering but not required |
-| **FYI** | Informational only | No action needed |
+1. **Understand the change**: Read the diff and related context.
+2. **Review five axes**: Correctness → Readability → Architecture → Security → Performance.
+3. **Label findings**: Critical / Important / Nit / Optional / FYI.
+4. **Summarize**: Verdict with clear action items.
+5. **Follow up**: Re-review after fixes.
 
 ## Output Format
 
@@ -107,7 +48,77 @@ Label every comment with its severity:
 - [ ] Request changes — Issues must be addressed
 ```
 
-## Review Checklist
+## Examples
+
+### Good Finding
+
+```markdown
+**Important | Architecture**
+Location: `src/orders/service.ts:58`
+Issue: Service directly calls external payment API without an abstraction.
+Suggestion: Introduce `PaymentGateway` interface so tests can stub and provider can be swapped.
+```
+
+### Bad Finding
+
+```markdown
+This looks wrong.
+```
+
+## Standards
+
+### 1. Correctness
+- Matches spec/task requirements.
+- Edge cases handled (null, empty, boundary values).
+- Error paths handled, not just happy path.
+- Tests exist and test the right things.
+
+### 2. Readability & Simplicity
+- Names are descriptive and consistent.
+- Control flow is straightforward.
+- Code is organized logically.
+- Abstractions earn their complexity.
+
+### 3. Architecture
+- Follows existing patterns or introduces one deliberately.
+- Maintains clean module boundaries.
+- Avoids unnecessary duplication.
+- Dependencies flow in the right direction.
+
+### 4. Security
+- User input is validated and sanitized.
+- Secrets stay out of code, logs, and version control.
+- Auth/authz checked where needed.
+- SQL queries parameterized.
+- Outputs encoded to prevent XSS.
+- External data treated as untrusted.
+
+### 5. Performance
+- No N+1 query patterns.
+- No unbounded loops or unconstrained data fetching.
+- No synchronous operations that should be async.
+- Pagination on list endpoints.
+- No large objects in hot paths.
+
+### Security Scan Focus
+- 硬编码密钥 / token / 密码
+- SQL 注入（字符串拼接）
+- 命令注入（`os.system`、`subprocess shell=True`）
+- 不安全反序列化（`pickle.loads`）
+- `eval()` / `exec()` 调用
+- 路径穿越
+
+### Severity Labels
+
+| Prefix | Meaning | Action |
+|--------|---------|--------|
+| **Critical:** | Blocks merge | Security vulnerability, data loss, broken functionality |
+| **Important:** | Should fix before merge | Logic error, maintainability issue |
+| **Nit:** | Minor, optional | Formatting, style preferences |
+| **Optional:** / **Consider:** | Suggestion | Worth considering but not required |
+| **FYI** | Informational only | No action needed |
+
+## Checklist
 
 - [ ] I understand what this change does and why
 - [ ] Change matches spec/task requirements
